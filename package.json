@@ -1,0 +1,21 @@
+{
+  "name": "panci-kosong",
+  "description": "rtmp server for bantayahall live stream",
+  "author": "Muhammad chandra zulfikar",
+  "version": "1.0.0",
+  "main": "./src",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "ffmpeg-static": "^4.2.7",
+    "node-media-server": "^2.2.4",
+    "nodemon": "^2.0.2",
+    "pm2": "^4.2.3",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  }
+}
