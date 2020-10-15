@@ -25,13 +25,17 @@ nms.on('prePublish', async (id, StreamPath, args) => {
   console.log('[NodeEvent on prePublish]', `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`);
   let stream_key = getStreamKeyFromStreamPath(StreamPath);
   let session = nms.getSession(id);
+
   try {
-    const liveData = await makeRequest(`${process.env.media_server}/livestream/check?id=${stream_key}`, 'GET')
-    if (liveData) {
-      makeRequest(`${process.env.socket_queue}/newLiveStream`, 'POST', liveData)
-    } else {
-      session.reject()
+    if (stream_key.split("_").length < 2) {
+      const liveData = await makeRequest(`${process.env.media_server}/livestream/check?id=${stream_key}`, 'GET')
+      if (liveData) {
+        makeRequest(`${process.env.socket_queue}/newLiveStream`, 'POST', liveData)
+      } else {
+        session.reject()
+      }
     }
+
   } catch (e) {
     session.reject();
     throw e
@@ -46,7 +50,10 @@ nms.on('donePublish', (id, StreamPath, args) => {
   console.log('[NodeEvent on donePublish]', `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`);
   let stream_key = getStreamKeyFromStreamPath(StreamPath);
   try {
-    makeRequest(`${process.env.media_server}/livestream/end?id=${stream_key}`, 'GET')
+    if (stream_key.split("_").length < 2) {
+      makeRequest(`${process.env.media_server}/livestream/end?id=${stream_key}`, 'GET')
+    }
+
   } catch (e) {
     throw e
   }
