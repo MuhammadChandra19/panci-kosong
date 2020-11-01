@@ -29,9 +29,7 @@ nms.on('prePublish', async (id, StreamPath, args) => {
   try {
     if (stream_key.split("_").length < 2) {
       const liveData = await makeRequest(`${process.env.media_server}/livestream/check?id=${stream_key}`, 'GET')
-      if (liveData) {
-        makeRequest(`${process.env.socket_queue}/newLiveStream`, 'POST', liveData)
-      } else {
+      if (!liveData) {
         session.reject()
       }
     }
