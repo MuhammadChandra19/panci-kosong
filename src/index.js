@@ -27,13 +27,10 @@ nms.on('prePublish', async (id, StreamPath, args) => {
   let session = nms.getSession(id);
 
   try {
-    if (stream_key.split("_").length < 2) {
-      const liveData = await makeRequest(`${process.env.media_server}/livestream/check?id=${stream_key}`, 'GET')
-      if (!liveData) {
-        session.reject()
-      }
+    const liveData = await makeRequest(`${process.env.media_server}/livestream/check?id=${stream_key}`, 'GET')
+    if (!liveData) {
+      session.reject()
     }
-
   } catch (e) {
     session.reject();
     throw e
