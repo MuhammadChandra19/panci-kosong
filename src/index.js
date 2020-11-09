@@ -45,9 +45,7 @@ nms.on('donePublish', (id, StreamPath, args) => {
   console.log('[NodeEvent on donePublish]', `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`);
   let stream_key = getStreamKeyFromStreamPath(StreamPath);
   try {
-    if (stream_key.split("_").length < 2) {
-      makeRequest(`${process.env.media_server}/livestream/end?id=${stream_key}`, 'GET')
-    }
+    makeRequest(`${process.env.media_server}/livestream/end?id=${stream_key}`, 'GET')
 
   } catch (e) {
     throw e
